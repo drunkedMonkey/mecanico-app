@@ -1,119 +1,119 @@
-# Mecánico App
+# Mechanic App
 
-Sistema de gestión integral para talleres mecánicos. Esta aplicación permite administrar citas, clientes, vehículos y empleados, con un sistema de control de acceso basado en roles (RBAC).
+Comprehensive management system for mechanical workshops. This application allows managing appointments, customers, vehicles, and employees, with a role-based access control (RBAC) system.
 
-## Estructura del Proyecto
+## Project Structure
 
-El proyecto está dividido en dos carpetas principales:
+The project is divided into two main folders:
 
-- **`backend`**: API REST construida con Node.js, Express, TypeScript y Prisma (PostgreSQL).
-- **`frontend`**: Interfaz de usuario construida con React, Vite y Material UI.
+- **`backend`**: REST API built with Node.js, Express, TypeScript, and Prisma (PostgreSQL).
+- **`frontend`**: User interface built with React, Vite, and Material UI.
 
-## Requisitos Previos
+## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18 o superior recomendado)
-- [PostgreSQL](https://www.postgresql.org/) (Base de datos local o remota)
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [PostgreSQL](https://www.postgresql.org/) (Local or remote database)
 
-## Instalación y Configuración
+## Installation and Setup
 
-Sigue estos pasos para ejecutar el proyecto en tu entorno local.
+Follow these steps to run the project in your local environment.
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 
 ```bash
-git clone <url-del-repositorio>
+git clone <repository-url>
 cd mecanico-app
 ```
 
-### 2. Configuración del Backend
+### 2. Backend Setup
 
-1.  Navega al directorio del backend:
+1.  Navigate to the backend directory:
     ```bash
     cd backend
     ```
 
-2.  Instala las dependencias:
+2.  Install dependencies:
     ```bash
     npm install
     ```
 
-3.  Configura las variables de entorno:
-    Copia el archivo `.env.example` a `.env`:
+3.  Configure environment variables:
+    Copy the `.env.example` file to `.env`:
     ```bash
     cp .env.example .env
     ```
-    Edita el archivo `.env` y asegúrate de que la variable `DATABASE_URL` apunte a tu base de datos PostgreSQL local.
+    Edit the `.env` file and ensure the `DATABASE_URL` variable points to your local PostgreSQL database.
     ```env
-    DATABASE_URL="postgresql://usuario:password@localhost:5432/mecanico_db"
+    DATABASE_URL="postgresql://user:password@localhost:5432/mecanico_db"
     ```
 
-4.  Inicializa la base de datos:
-    Ejecuta las migraciones para crear las tablas:
+4.  Initialize the database:
+    Run migrations to create the tables:
     ```bash
     npm run prisma:migrate
     ```
 
-5.  (Opcional) Carga datos de prueba:
-    Puebla la base de datos con usuarios y datos iniciales:
+5.  (Optional) Load test data:
+    Populate the database with initial users and data:
     ```bash
     npm run seed
     ```
 
-6.  Inicia el servidor de desarrollo:
+6.  Start the development server:
     ```bash
     npm run dev
     ```
-    El backend estará corriendo en `http://localhost:8000`.
+    The backend will be running at `http://localhost:8000`.
 
-### 3. Configuración del Frontend
+### 3. Frontend Setup
 
-1.  Abre una nueva terminal y navega al directorio del frontend:
+1.  Open a new terminal and navigate to the frontend directory:
     ```bash
     cd frontend
     ```
 
-2.  Instala las dependencias:
+2.  Install dependencies:
     ```bash
     npm install
     ```
 
-3.  Inicia el servidor de desarrollo:
+3.  Start the development server:
     ```bash
     npm run dev
     ```
-    El frontend estará disponible en `http://localhost:5173` (o el puerto que indique Vite).
+    The frontend will be available at `http://localhost:5173` (or the port indicated by Vite).
 
-## Credenciales de Prueba
+## Test Credentials
 
-Si ejecutaste el comando `npm run seed`, puedes utilizar los siguientes usuarios para probar los diferentes roles:
+If you ran the `npm run seed` command, you can use the following users to test the different roles:
 
-| Rol | Email | Contraseña |
+| Role | Email | Password |
 | --- | --- | --- |
 | **Admin** | `admin@taller.com` | `123456` |
-| **Mecánico** | `juan.perez@taller.com` | `123456` |
+| **Mechanic** | `juan.perez@taller.com` | `123456` |
 | **Backoffice** | `backoffice@taller.com` | `123456` |
 
-> **Nota**: Al iniciar sesión por primera vez, se te pedirá cambiar la contraseña.
+> **Note**: Upon logging in for the first time, you will be asked to change the password.
 
-## Creación de Usuarios
+## User Creation
 
-La aplicación no cuenta con un registro público. La gestión de usuarios es exclusiva del rol **Administrador**.
+The application does not have a public registration. User management is exclusive to the **Administrator** role.
 
-1.  Inicia sesión con una cuenta de Administrador.
-2.  Ve a la sección **Empleados**.
-3.  Haz clic en **Nuevo Empleado**.
-4.  Rellena los datos y selecciona el rol.
-5.  **Importante**: La contraseña inicial por defecto será `123456`. El usuario deberá cambiarla obligatoriamente en su primer acceso.
+1.  Log in with an Administrator account.
+2.  Go to the **Employees** section.
+3.  Click on **New Employee**.
+4.  Fill in the data and select the role.
+5.  **Important**: The initial default password will be `123456`. The user must change it on their first access.
 
-## Características Principales
+## Main Features
 
-- **Gestión de Citas**: Crear, editar, cancelar y completar citas. Vista de calendario y lista.
-- **Gestión de Clientes**: CRUD completo de clientes y sus vehículos asociados.
-- **Gestión de Empleados**: Administración de personal con roles diferenciados.
-- **Seguridad**: Autenticación JWT y autorización basada en roles (Admin, Mecánico, Backoffice).
-- **Eliminación Definitiva**: Funcionalidad exclusiva para administradores para borrar registros permanentemente.
+- **Appointment Management**: Create, edit, cancel, and complete appointments. Calendar and list view.
+- **Customer Management**: Complete CRUD of customers and their associated vehicles.
+- **Employee Management**: Personnel administration with differentiated roles.
+- **Security**: JWT authentication and role-based authorization (Admin, Mechanic, Backoffice).
+- **Permanent Deletion**: Exclusive functionality for administrators to permanently delete records.
 
-## Tecnologías
+## Technologies
 
 - **Frontend**: React, TypeScript, Vite, Material UI, React Query.
 - **Backend**: Node.js, Express, TypeScript, Prisma ORM, PostgreSQL.
