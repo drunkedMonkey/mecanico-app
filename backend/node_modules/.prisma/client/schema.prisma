@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Customer {
+  id             Int        @id @default(autoincrement())
+  name           String
+  firstName      String?
+  firstSurname   String?
+  secondSurname  String?
+  identifier     String?    @unique
+  identifierType String?
+  address        String?
+  phone          String?
+  email          String?    @unique
+  vehicles       Vehicle[]
+  appointments   Appointment[]
+}
+
+model Vehicle {
+  id         Int      @id @default(autoincrement())
+  customerId Int
+  brand      String
+  model      String
+  plate      String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  appointments Appointment[]
+}
+
+enum Role {
+  MECHANIC
+  ADMIN
+  BACKOFFICE
+}
+
+model Employee {
+  id           Int @id @default(autoincrement())
+  name         String
+  firstName    String?
+  firstSurname String?
+  secondSurname String?
+  dni          String?   @unique
+  email        String?   @unique
+  phone        String?
+  employeeCode String?   @unique
+  password     String    @default("$2a$10$X7V.j.X7V.j.X7V.j.X7V.j.X7V.j.X7V.j.X7V.j.X7V.j.X7V.j") // Dummy hash
+  passwordChanged Boolean @default(false)
+  role         Role      @default(MECHANIC)
+  appointments Appointment[]
+  deletedAt    DateTime?
+}
+
+model Service {
+  id       Int    @id @default(autoincrement())
+  name     String
+  duration Int
+  appointments Appointment[]
+}
+
+model Appointment {
+  id          Int      @id @default(autoincrement())
+  customerId  Int
+  vehicleId   Int
+  mechanicId  Int
+  serviceId   Int
+  scheduledAt DateTime
+  status      String   @default("scheduled")
+  description String?
+  followUpOf   Int?
+
+  customer  Customer @relation(fields: [customerId], references: [id])
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+  mechanic  Employee @relation(fields: [mechanicId], references: [id])
+  service   Service  @relation(fields: [serviceId], references: [id])
+  followUpOfAppointment Appointment? @relation("FollowUp", fields: [followUpOf], references: [id])
+  followUps Appointment[] @relation("FollowUp")
+}

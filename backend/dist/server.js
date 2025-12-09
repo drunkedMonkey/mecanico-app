@@ -1,0 +1,78 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
+const app_1 = __importDefault(require("./app"));
+// Composition root: crear repos, handlers y registrar en el bus
+const Bus_1 = __importDefault(require("./shared/bus/Bus"));
+const PrismaAppointmentRepository_1 = __importDefault(require("./features/appointments/infrastructure/PrismaAppointmentRepository"));
+const GetAppointmentsHandler_1 = __importDefault(require("./features/appointments/application/handlers/GetAppointmentsHandler"));
+const CreateAppointmentHandler_1 = __importDefault(require("./features/appointments/application/handlers/CreateAppointmentHandler"));
+const GetAppointmentsQuery_1 = __importDefault(require("./features/appointments/application/messages/GetAppointmentsQuery"));
+const CreateAppointmentCommand_1 = __importDefault(require("./features/appointments/application/messages/CreateAppointmentCommand"));
+const GetAppointmentByIdHandler_1 = __importDefault(require("./features/appointments/application/handlers/GetAppointmentByIdHandler"));
+const UpdateAppointmentHandler_1 = __importDefault(require("./features/appointments/application/handlers/UpdateAppointmentHandler"));
+const DeleteAppointmentHandler_1 = __importDefault(require("./features/appointments/application/handlers/DeleteAppointmentHandler"));
+const GetAppointmentByIdQuery_1 = __importDefault(require("./features/appointments/application/messages/GetAppointmentByIdQuery"));
+const UpdateAppointmentCommand_1 = __importDefault(require("./features/appointments/application/messages/UpdateAppointmentCommand"));
+const DeleteAppointmentCommand_1 = __importDefault(require("./features/appointments/application/messages/DeleteAppointmentCommand"));
+const PrismaEmployeeRepository_1 = __importDefault(require("./features/employees/infrastructure/PrismaEmployeeRepository"));
+const GetEmployeesHandler_1 = __importDefault(require("./features/employees/application/handlers/GetEmployeesHandler"));
+const CreateEmployeeHandler_1 = __importDefault(require("./features/employees/application/handlers/CreateEmployeeHandler"));
+const UpdateEmployeeHandler_1 = __importDefault(require("./features/employees/application/handlers/UpdateEmployeeHandler"));
+const DeleteEmployeeHandler_1 = __importDefault(require("./features/employees/application/handlers/DeleteEmployeeHandler"));
+const RestoreEmployeeHandler_1 = __importDefault(require("./features/employees/application/handlers/RestoreEmployeeHandler"));
+const GetEmployeesQuery_1 = __importDefault(require("./features/employees/application/messages/GetEmployeesQuery"));
+const CreateEmployeeCommand_1 = __importDefault(require("./features/employees/application/messages/CreateEmployeeCommand"));
+const UpdateEmployeeCommand_1 = __importDefault(require("./features/employees/application/messages/UpdateEmployeeCommand"));
+const DeleteEmployeeCommand_1 = __importDefault(require("./features/employees/application/messages/DeleteEmployeeCommand"));
+const RestoreEmployeeCommand_1 = __importDefault(require("./features/employees/application/messages/RestoreEmployeeCommand"));
+const PrismaCustomerRepository_1 = __importDefault(require("./features/customers/infrastructure/PrismaCustomerRepository"));
+const GetCustomersHandler_1 = __importDefault(require("./features/customers/application/handlers/GetCustomersHandler"));
+const CreateCustomerHandler_1 = __importDefault(require("./features/customers/application/handlers/CreateCustomerHandler"));
+const UpdateCustomerHandler_1 = __importDefault(require("./features/customers/application/handlers/UpdateCustomerHandler"));
+const DeleteCustomerHandler_1 = __importDefault(require("./features/customers/application/handlers/DeleteCustomerHandler"));
+const GetCustomersQuery_1 = __importDefault(require("./features/customers/application/messages/GetCustomersQuery"));
+const CreateCustomerCommand_1 = __importDefault(require("./features/customers/application/messages/CreateCustomerCommand"));
+const UpdateCustomerCommand_1 = __importDefault(require("./features/customers/application/messages/UpdateCustomerCommand"));
+const DeleteCustomerCommand_1 = __importDefault(require("./features/customers/application/messages/DeleteCustomerCommand"));
+// Repositories
+const appointmentRepo = new PrismaAppointmentRepository_1.default();
+const employeeRepo = new PrismaEmployeeRepository_1.default();
+const customerRepo = new PrismaCustomerRepository_1.default();
+// Handlers
+const getAppointmentsHandler = (0, GetAppointmentsHandler_1.default)(appointmentRepo);
+const createAppointmentHandler = (0, CreateAppointmentHandler_1.default)(appointmentRepo);
+const getAppointmentByIdHandler = (0, GetAppointmentByIdHandler_1.default)(appointmentRepo);
+const updateAppointmentHandler = (0, UpdateAppointmentHandler_1.default)(appointmentRepo);
+const deleteAppointmentHandler = (0, DeleteAppointmentHandler_1.default)(appointmentRepo);
+const getEmployeesHandler = (0, GetEmployeesHandler_1.default)(employeeRepo);
+const createEmployeeHandler = (0, CreateEmployeeHandler_1.default)(employeeRepo);
+const updateEmployeeHandler = (0, UpdateEmployeeHandler_1.default)(employeeRepo);
+const deleteEmployeeHandler = (0, DeleteEmployeeHandler_1.default)(employeeRepo);
+const restoreEmployeeHandler = (0, RestoreEmployeeHandler_1.default)(employeeRepo);
+const getCustomersHandler = (0, GetCustomersHandler_1.default)(customerRepo);
+const createCustomerHandler = (0, CreateCustomerHandler_1.default)(customerRepo);
+const updateCustomerHandler = (0, UpdateCustomerHandler_1.default)(customerRepo);
+const deleteCustomerHandler = (0, DeleteCustomerHandler_1.default)(customerRepo);
+// Register handlers on the bus
+Bus_1.default.register(GetAppointmentsQuery_1.default.TYPE, getAppointmentsHandler);
+Bus_1.default.register(CreateAppointmentCommand_1.default.TYPE, createAppointmentHandler);
+Bus_1.default.register(GetAppointmentByIdQuery_1.default.TYPE, getAppointmentByIdHandler);
+Bus_1.default.register(UpdateAppointmentCommand_1.default.TYPE, updateAppointmentHandler);
+Bus_1.default.register(DeleteAppointmentCommand_1.default.TYPE, deleteAppointmentHandler);
+Bus_1.default.register(GetEmployeesQuery_1.default.TYPE, getEmployeesHandler);
+Bus_1.default.register(CreateEmployeeCommand_1.default.TYPE, createEmployeeHandler);
+Bus_1.default.register(UpdateEmployeeCommand_1.default.TYPE, updateEmployeeHandler);
+Bus_1.default.register(DeleteEmployeeCommand_1.default.TYPE, deleteEmployeeHandler);
+Bus_1.default.register(RestoreEmployeeCommand_1.default.TYPE, restoreEmployeeHandler);
+Bus_1.default.register(GetCustomersQuery_1.default.TYPE, getCustomersHandler);
+Bus_1.default.register(CreateCustomerCommand_1.default.TYPE, createCustomerHandler);
+Bus_1.default.register(UpdateCustomerCommand_1.default.TYPE, updateCustomerHandler);
+Bus_1.default.register(DeleteCustomerCommand_1.default.TYPE, deleteCustomerHandler);
+const PORT = Number(process.env.PORT) || 8000;
+app_1.default.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+});
